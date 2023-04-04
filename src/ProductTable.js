@@ -6,7 +6,9 @@ import axios from 'axios';
 import { useTable } from 'react-table';
 export function ProductTable(props){
     const [products,setProducts]=useState([]);
-
+    function capitalizeFirstLetter(string) {
+      return string.charAt(0).toUpperCase() + string.slice(1);
+  }
     const fetchProduct = async()=>{
       const response = await axios.get("https://fakestoreapi.com/products")
       .catch((err)=> console.log(err));
@@ -18,45 +20,13 @@ export function ProductTable(props){
     }
     const productData = useMemo(()=>[...products],[products]);
     const productColumn =   useMemo(()=> products[0]? Object.keys(products[0]).filter(key=>key !== 'rating').map(key=> {
-      return { Header:key, accessor:key}
+      return { Header:capitalizeFirstLetter(key), accessor:key}
     }) : [],[products])
-    const pData = React.useMemo(()=>[
-        {
-            id:7,
-            title:'new title',
-            price:'new price',
-            category:'new category',
-            description:'new description',
-            image:'new image url'
-        },
-        {
-            id:6,
-            title:'new title',
-            price:'new price',
-            category:'new category',
-            description:'new description',
-            image:'new image url'
-        }
-    ],[])
-    const columns = React.useMemo(()=>[
-        {
-            Header:'ID',
-            accessor:'id'
-        },
-        {
-            Header:'title',
-            accessor:'title'
-        },
-        {
-            Header:'price',
-            accessor:'price'
-        }
-    ],[])
+  
     useEffect(()=>{
         fetchProduct();
      
       },[]) 
-     console.log( columns);
     const tableInstance = useTable({columns:productColumn,data:productData})
     const {
         getTableProps,
@@ -66,8 +36,7 @@ export function ProductTable(props){
         prepareRow,
       } = tableInstance  
     return(
-        <div className='product-table'>
-            <h1>hello</h1>
+        <div className='container'>
             <table {...getTableProps()}>
      <thead>
        {// Loop over the header rows
