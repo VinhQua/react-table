@@ -54,8 +54,7 @@ body {
   top: 50%;
   left: 50%;
   max-height: 600px;
-  overflow-y: scroll;
-  overflow-x: hidden;
+  overflow: hidden;
   -webkit-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
   height: 80%;
@@ -108,4 +107,22 @@ tbody td:hover:before {
 }
 .product-image{
   max-width: 70px;
+}
+.search-bar{
+  position: sticky;
+  top: 0;
+  height: 6%;
+  font-weight: 600;
+}
+.search-bar input{
+  border-radius: .5rem;
+  padding: .2rem;
+  border: .1rem solid green;
+}
+.product-table{
+  overflow: scroll;
+  overflow-x: scroll;
+}
+*{
+  transition: all .1s ;
 }

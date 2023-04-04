@@ -3,7 +3,8 @@ import './App.css';
 import React from 'react'
 import { useEffect, useMemo, useState } from 'react';
 import axios from 'axios';
-import { useSortBy, useTable } from 'react-table';
+import { useGlobalFilter, useSortBy, useTable } from 'react-table';
+import { GlobalFilter } from './GlobalFilter';
 export function ProductTable(props){
     const [products,setProducts]=useState([]);
     function capitalizeFirstLetter(string) {
@@ -47,6 +48,7 @@ export function ProductTable(props){
       ])
     }
     const tableInstance = useTable({columns:productColumn,data:productData}
+    ,useGlobalFilter
     ,tableHooks,
     useSortBy,  )
     const {
@@ -55,10 +57,13 @@ export function ProductTable(props){
         headerGroups,
         rows,
         prepareRow,
+        preGlobalFilteredRows,setGlobalFilter,state,
       } = tableInstance  
       const isEven = (index) =>{index % 2===0}
     return(
-        <div className='container'>
+      <div className='container'>
+      <GlobalFilter preGlobalFilteredRows={preGlobalFilteredRows} setGlobalFilter={setGlobalFilter} globalFilter={state.globalFilter}/>
+        <div className='product-table'>
             <table {...getTableProps()}>
      <thead>
        {// Loop over the header rows
@@ -102,5 +107,6 @@ export function ProductTable(props){
      </tbody>
    </table>
         </div>
+    </div>
     )
 }
